@@ -1,5 +1,8 @@
 // src/server.js
 import express from 'express';
+import usuarioRotas from './routes/usuarioRotas.js';
+import prisma from './config/database.js';
+import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,40 +22,22 @@ app.get('/health', (req, res) => {
   
 });
 
-// Rota básica para usuários (professores)
-app.get('/users', (req, res) => {
-  // Mock data - simula dados que viriam do banco
-  const usuarios = [
-    {
-      id: 1,
-      nome: 'Prof. Maria Silva',
-      email: 'maria@escola.com',
-      papel: 'PROFESSOR',
-      dataCreacao: '2024-01-15T10:00:00Z',
-    },
-    {
-      id: 2,
-      nome: 'Admin João',
-      email: 'joao@escola.com',
-      papel: 'ADMIN',
-      dataCreacao: '2024-01-10T08:30:00Z',
-    },
-  ];
-
-  res.status(200).json({
-    success: true,
-    data: usuarios,
-    total: usuarios.length,
-  });
-});
+app.use('/usuarios', usuarioRotas);
 
 // Middleware de tratamento de rotas não encontradas
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: `Rota ${req.method} ${req.originalUrl} não encontrada`,
+    error: {
+      code: 'NOT_FOUND',
+      message: `Rota ${req.method} ${req.originalUrl} não encontrada`,
+    },
+    timestamp: new Date().toISOString(),
+    path: req.path,
   });
 });
+
+app.use(errorHandler);
 
 // Inicializar servidor
 app.listen(PORT, () => {
