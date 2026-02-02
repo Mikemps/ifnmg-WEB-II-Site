@@ -12,3 +12,16 @@ export const create = async (req, res, next) => {
         next(error);
     }
 };
+
+export const getAll = async (req, res, next) => {
+    try{
+        const usuarios = await usuarioService.getAllUsuario(req.body);
+        res.status(200).json({
+        success: true,
+        data: usuarios,
+        total: usuarios.length,
+        });
+    } catch (error) {
+        next(error);
+    }
+}

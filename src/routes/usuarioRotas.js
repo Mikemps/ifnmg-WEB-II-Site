@@ -7,5 +7,6 @@ import {
 
 const router = express.Router();
 router.post('/', validate(createUserSchema, 'body'), usuarioController.create);
+router.get('/', usuarioController.getAll);
 
 export default router;

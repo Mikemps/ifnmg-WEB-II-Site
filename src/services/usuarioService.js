@@ -25,20 +25,38 @@ export const create = async({nome, email, senha}) => {
   const dadosUsuario = {
     nome,
     email,
-    senhaHash,
+    senha: senhaHash,
     perfilId: 1,
   };
 
   const novoUsuario = await prisma.usuario.create({
     data: dadosUsuario,
     select: {
-      id: true,
+      idUsuario: true,
       nome: true,
       email: true,
     },
   });
 
   return novoUsuario;
+};
+
+export const getAllUsuario = async () =>{
+  const usuario = await prisma.usuario.findMany({
+    select: {
+      idUsuario: true,
+      nome: true,
+      email: true,
+      perfil: {
+        select: {
+          idPerfil: true,
+          nome_perfil: true,
+        },
+      },
+    },
+  });
+
+  return usuario;
 };
 
 export default {
