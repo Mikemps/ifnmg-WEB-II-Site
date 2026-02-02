@@ -1,0 +1,403 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+.light {
+  --bg-post: #ebf1f1;
+  --font-paragrafo: #434a50;
+  --font-resumo: #2e343d;
+  --font-link: #1e40af;
+}
+
+.dark {
+  --bg-post: #2c2c2c;
+  --font-paragrafo: #f7f7f7;
+  --font-resumo: #e2e1ebe7;
+  --font-link: #93c4fd;
+}
+
+.compartilhar {
+  position: fixed;
+  margin-top: 19vh;
+  margin-left: -2.4em;
+  background-color: var(--color-bg-primary);
+  padding: 0.5em;
+  border-radius: 20px;
+  display: flex;
+  width: 0.9em;
+  height: 9em;
+  font-size: 1.2em;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: -5px 5px 8px rgba(0, 0, 0, 0.205);
+  opacity: 1;
+  transition: 0.5s;
+  overflow-x: hidden;
+}
+
+.compartilhar a {
+  color: var(--logo-fill);
+  display: flex;
+  width: 100%;
+  text-decoration: none;
+  justify-content: space-between;
+  align-items: center;
+}
+.compartilhar a p {
+  font-family: "Roboto", sans-serif;
+  margin-left: 0.6em;
+  width: 100%;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.compartilhar a:hover {
+  color: var(--color-font-primary) !important;
+}
+
+.compartilhar:hover {
+  width: 5.5em;
+  border-radius: 20px 15px 15px 20px;
+  box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.349);
+}
+
+.conteudo {
+  min-height: 100%;
+  background-color: var(--bg-post);
+  background-image: url("../imgs/bg.svg");
+  background-position-y: -15vh;
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+}
+
+.avisoErro {
+  text-align: center;
+  font-family: "Roboto Slab", serif;
+  font-weight: bold;
+  color: var(--color-bg-secondary);
+  margin-top: 4.2vh;
+  padding-right: 2em;
+  padding-left: 2em;
+  margin-bottom: auto;
+}
+
+.avisoErro i {
+  font-size: 3rem;
+  color: #dc3545;
+}
+@media (min-width: 450px) {
+  .videoYoutube {
+    display: block;
+    text-align: center;
+    width: 50%;
+    height: 23vw;
+    max-height: 13em;
+    min-height: 10em;
+    min-width: 18em;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 449px) {
+  .videoYoutube {
+    display: block;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.avisoErro h1 {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.avisoErro a {
+  padding: 5px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5px;
+  font-family: "Roboto Slab", serif;
+  font-weight: 900;
+  max-width: 400px;
+  min-height: 30px;
+  max-height: 40px;
+  border-width: 0;
+  color: var(--color-font-light);
+  background-color: var(--color-bg-secondary);
+  text-decoration: none;
+}
+
+.avisoErro a:hover {
+  background-color: var(--color-font-primary);
+}
+
+.avisoErro a i {
+  font-size: 1.3rem;
+  color: var(--color-font-light);
+}
+
+.artigo {
+  padding-top: 15vh;
+  font-family: "Roboto Slab", serif;
+  width: 80vw;
+  max-width: 950px;
+  min-height: 58vh;
+  padding-right: 1.8rem;
+  padding-left: 1.8rem;
+  padding-bottom: 2vh;
+  background-color: var(--color-bg-primary);
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0px 20px 25px rgba(0, 0, 0, 0.205);
+  line-height: 1.8;
+}
+
+.classTitulo {
+  color: var(--color-font-primary);
+  width: 100%;
+  text-align: center;
+  font-size: 1.9em;
+  margin-bottom: 2.5rem;
+}
+.abstract {
+  color: var(--color-bg-hover);
+}
+
+.boxAbst {
+  width: 90%;
+  align-items: center;
+  margin: auto;
+  margin-bottom: 3rem;
+}
+
+#resumo {
+  font-size: 1.15em;
+  text-align: center;
+  color: var(--font-resumo);
+  margin-bottom: 1em;
+}
+
+img {
+  margin-left: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: auto;
+  float: center;
+}
+
+.ArtigoTexto {
+  color: var(--color-font-dark);
+  width: 100%;
+  min-height: 100%;
+  font-size: 1.3em;
+  font-family: "Roboto Slab", serif;
+}
+.ArtigoTexto a {
+  text-decoration: none;
+  color: var(--font-link);
+}
+.ArtigoTexto h1 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: var(--color-font-secondary);
+}
+
+.ArtigoTexto h2 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: var(--color-font-secondary);
+}
+.ArtigoTexto h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: var(--color-font-secondary);
+}
+
+.ArtigoTexto h4 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: var(--color-font-secondary);
+}
+
+.ArtigoTexto h5 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: var(--color-font-secondary);
+}
+
+.ArtigoTexto h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: var(--color-font-secondary);
+}
+
+.ArtigoTexto p {
+  margin-bottom: 1.5em;
+  color: var(--color-font-dark);
+}
+
+.ArtigoTexto img {
+  display: flex;
+}
+
+.ArtigoTexto ol {
+  margin-left: 2em;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.ArtigoTexto ul {
+  list-style: disc;
+  margin-left: 2em;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.autorBox {
+  font-size: 0.95rem;
+  display: flex;
+  font-family: "Roboto Slab", serif;
+  font-weight: 500;
+  width: 100%;
+  border: 2px solid var(--color-border-secondary);
+  padding-bottom: 0.3em;
+  margin-bottom: 0.3em;
+  border-width: 0 0 2px 0;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.criadoPost {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: end;
+}
+
+.perfilAutor {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+.perfilAutor path {
+  fill: var(--logo-fill);
+}
+.perfilAutor svg {
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 10px;
+}
+.perfilAutor img {
+  margin: 0;
+  width: 2em;
+  height: 2em;
+  border-radius: 100%;
+  transition: all 0.5s ease-in-out;
+}
+.perfilAutor img:hover {
+  margin: 0;
+
+  border-radius: 100%;
+  width: 5em;
+  height: 5em;
+}
+#autorDados {
+  display: flex;
+}
+.autorBox p {
+  margin-left: 3%;
+  color: var(--font-paragrafo);
+}
+
+#nomeAutor {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.linkRede {
+  margin-left: 5px;
+  font-size: 1em;
+  color: var(--logo-fill);
+}
+
+#AtualizaçãoPost {
+  font-size: 1em;
+  color: var(--color-font-secondary);
+  width: 100%;
+  margin-top: 2em;
+  font-weight: 700;
+  text-align: center;
+}
+
+.separaArtigo {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  width: 60%;
+  min-height: 0.1em;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--color-bg-secondary);
+  background-color: var(--color-bg-secondary);
+  border-width: 0;
+}
+
+.textCompartilha {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  color: var(--color-font-secondary);
+  text-align: center;
+  width: 100%;
+}
+
+.compartilharFixo {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  font-size: 1.4em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.compartilharFixo a {
+  color: var(--logo-fill);
+  margin-bottom: 1em;
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.103);
+}
+.compartilharFixo a :hover {
+  color: var(--color-font-primary);
+}
+.voltarAoTopo {
+  display: flex;
+  width: 100%;
+}
+.voltarAoTopo div {
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  color: var(--font-resumo);
+  font-style: normal;
+  margin-bottom: 1em;
+}
+
+.giscus {
+  height: 100%;
+  padding-bottom: 2em;
+}
+
+.giscus-frame {
+  height: auto;
+}
+.comentH1 {
+  color: var(--color-font-secondary);
+}
