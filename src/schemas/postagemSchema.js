@@ -29,13 +29,17 @@ export const postagemCreateSchema = z.object({
     .trim(),
 
   tipo: z
-    .string({
-      required_error: 'Tipo é obrigatório',
-      invalid_type_error: 'Tipo deve ser um texto',
-    })
-    .min(3, 'Tipo deve ter pelo menos 3 caracteres')
-    .max(100, 'Tipo deve ter no máximo 100 caracteres')
-    .trim(),
+    .preprocess((val) => {
+      if (typeof val === 'string') {
+        let cleaned = val.trim().toLowerCase();
+        // Remove aspas literais se existirem
+        cleaned = cleaned.replace(/^"|"$/g, '');
+        return cleaned;
+      }
+      return val;
+    }, z.enum(['post', 'servico'], {
+      errorMap: () => ({ message: 'Tipo deve ser "post" ou "servico"' }),
+    })),
 
   imagem_capa: z
     .string({
@@ -85,12 +89,17 @@ export const postagemUpdateSchema = z.object({
     .optional(),
 
   tipo: z
-    .string({
-      invalid_type_error: 'Tipo deve ser um texto',
-    })
-    .min(3, 'Tipo deve ter pelo menos 3 caracteres')
-    .max(100, 'Tipo deve ter no máximo 100 caracteres')
-    .trim()
+    .preprocess((val) => {
+      if (typeof val === 'string') {
+        let cleaned = val.trim().toLowerCase();
+        // Remove aspas literais se existirem
+        cleaned = cleaned.replace(/^"|"$/g, '');
+        return cleaned;
+      }
+      return val;
+    }, z.enum(['post', 'servico'], {
+      errorMap: () => ({ message: 'Tipo deve ser "post" ou "servico"' }),
+    }))
     .optional(),
 
   imagem_capa: z

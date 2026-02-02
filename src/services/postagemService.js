@@ -131,3 +131,76 @@ export const deletarPostagem = async (id) => {
 
   return postagem;
 };
+
+export const buscarPostagemPorTipo = async (tipo, page = 1, limit = 10) => {
+  const tiposValidos = ['post', 'servico'];
+  
+  if (!tiposValidos.includes(tipo)) {
+    throw new AppError('Tipo deve ser "post" ou "servico"', 400);
+  }
+
+  const skip = (page - 1) * limit;
+
+  const [postagens, total] = await Promise.all([
+    prisma.postagem.findMany({
+      where: { tipo: tipo },
+      skip,
+      take: limit,
+      include: {
+        autor: {
+          select: {
+            idUsuario: true,
+            nome: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        data: 'desc',
+      },
+    }),
+    prisma.postagem.count({
+      where: { tipo: tipo },
+    }),
+  ]);
+
+  if (postagens.length === 0) {
+    throw new AppError(`Nenhuma postagem encontrada do tipo "${tipo}"`, 404);
+  }
+
+  return {
+    postagens,
+    total,
+    page,
+    pages: Math.ceil(total / limit),
+  };
+};
+
+export const listarComentariosDaPostagem = async (postagemId, page = 1, limit = 20) => {
+  const skip = (page - 1) * limit;
+
+  const [comentarios, total] = await Promise.all([
+    prisma.comentario.findMany({
+      where: { postagemId: postagemId },
+      skip,
+      take: limit,
+      include: {
+        usuario: {
+          select: {
+            idUsuario: true,
+            nome: true,
+          },
+        },
+      },
+      orderBy: { data: 'desc' },
+    }),
+    prisma.comentario.count({ where: { postagemId: postagemId } }),
+  ]);
+
+  return {
+    comentarios,
+    total,
+    page,
+    pages: Math.ceil(total / limit),
+  };
+};

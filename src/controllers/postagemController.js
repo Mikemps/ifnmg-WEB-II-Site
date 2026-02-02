@@ -1,5 +1,23 @@
 import * as postagemService from '../services/postagemService.js';
 
+export const listarComentarios = async (req, res, next) => {
+  try {
+    const postagemId = parseInt(req.params.id);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const resultado = await postagemService.listarComentariosDaPostagem(postagemId, page, limit);
+
+    res.status(200).json({
+      success: true,
+      message: 'Comentários listados com sucesso',
+      data: resultado,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const criar = async (req, res, next) => {
   try {
     // `validate` middleware already validated and replaced `req.body`
@@ -48,6 +66,24 @@ export const buscarPorTitulo = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: 'Postagens encontradas com sucesso',
+      data: resultado,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const buscarPorTipo = async (req, res, next) => {
+  try {
+    const { tipo } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const resultado = await postagemService.buscarPostagemPorTipo(tipo, page, limit);
+
+    res.status(200).json({
+      success: true,
+      message: `Postagens do tipo "${tipo}" encontradas com sucesso`,
       data: resultado,
     });
   } catch (error) {
