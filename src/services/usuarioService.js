@@ -108,6 +108,32 @@ export const deleteUsuarioByEmail = async (email) => {
     return null;
   }
 
+  // Verifica se o usuário tem referências (editais, postagens, comentários)
+  const [editaisCount, postagensCount, comentariosCount] = await Promise.all([
+    prisma.edital.count({
+      where: { autorId: usuario.idUsuario },
+    }),
+    prisma.postagem.count({
+      where: { autorId: usuario.idUsuario },
+    }),
+    prisma.comentario.count({
+      where: { usuarioId: usuario.idUsuario },
+    }),
+  ]);
+
+  // Se tem referências, bloqueia a deleção
+  if (editaisCount > 0 || postagensCount > 0 || comentariosCount > 0) {
+    const motivos = [];
+    if (editaisCount > 0) motivos.push(`${editaisCount} edital(is)`);
+    if (postagensCount > 0) motivos.push(`${postagensCount} postagem(ens)`);
+    if (comentariosCount > 0) motivos.push(`${comentariosCount} comentário(s)`);
+
+    throw new ConflictError(
+      `Não é possível deletar usuário. Ele é autor de: ${motivos.join(', ')}`,
+      'usuario'
+    );
+  }
+
   return prisma.usuario.delete({
     where: { email },
     select: {

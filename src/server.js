@@ -6,6 +6,7 @@ import uploadRotas from './routes/uploadRotas.js';
 import usuarioRotas from './routes/usuarioRotas.js';
 import loginRotas from './routes/loginRotas.js';
 import postagemRotas from './routes/postagemRotas.js';
+import editalRotas from './routes/editalRotas.js';
 import prisma from './config/database.js';
 import errorHandler from './middlewares/errorHandler.js';
 import { multerErrorHandler } from './middlewares/multerErrorHandler.js';
@@ -38,9 +39,8 @@ app.get('/health', (req, res) => {
 app.use('/usuarios', usuarioRotas);
 app.use('/login', loginRotas);
 app.use('/postagens', postagemRotas);
-
-// Rotas de upload (arquivo separadas)
 app.use('/upload', uploadRotas);
+app.use('/editais', editalRotas);
 
 // Middleware de tratamento de rotas não encontradas
 app.use((req, res) => {
