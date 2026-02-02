@@ -1,0 +1,101 @@
+import { z } from 'zod';
+
+export const postagemCreateSchema = z.object({
+  titulo: z
+    .string({
+      required_error: 'Título é obrigatório',
+      invalid_type_error: 'Título deve ser um texto',
+    })
+    .min(3, 'Título deve ter pelo menos 3 caracteres')
+    .max(255, 'Título deve ter no máximo 255 caracteres')
+    .trim(),
+
+  conteudo: z
+    .string({
+      required_error: 'Conteúdo é obrigatório',
+      invalid_type_error: 'Conteúdo deve ser um texto',
+    })
+    .min(10, 'Conteúdo deve ter pelo menos 10 caracteres')
+    .max(50000, 'Conteúdo deve ter no máximo 50000 caracteres')
+    .trim(),
+
+  resumo: z
+    .string({
+      required_error: 'Resumo é obrigatório',
+      invalid_type_error: 'Resumo deve ser um texto',
+    })
+    .min(10, 'Resumo deve ter pelo menos 10 caracteres')
+    .max(500, 'Resumo deve ter no máximo 500 caracteres')
+    .trim(),
+
+  tipo: z
+    .string({
+      required_error: 'Tipo é obrigatório',
+      invalid_type_error: 'Tipo deve ser um texto',
+    })
+    .min(3, 'Tipo deve ter pelo menos 3 caracteres')
+    .max(100, 'Tipo deve ter no máximo 100 caracteres')
+    .trim(),
+
+  imagem_capa: z
+    .string({
+      invalid_type_error: 'Imagem de capa deve ser um texto (URL)',
+    })
+    .optional(),
+  autorId: z
+    .preprocess((val) => {
+      if (typeof val === 'string') {
+        const n = Number(val);
+        return Number.isNaN(n) ? val : n;
+      }
+      return val;
+    },
+    z.number({
+      required_error: 'Autor ID é obrigatório',
+      invalid_type_error: 'Autor ID deve ser um número',
+    }).int('Autor ID deve ser um número inteiro')),
+});
+
+export const postagemUpdateSchema = z.object({
+  titulo: z
+    .string({
+      invalid_type_error: 'Título deve ser um texto',
+    })
+    .min(3, 'Título deve ter pelo menos 3 caracteres')
+    .max(255, 'Título deve ter no máximo 255 caracteres')
+    .trim()
+    .optional(),
+
+  conteudo: z
+    .string({
+      invalid_type_error: 'Conteúdo deve ser um texto',
+    })
+    .min(10, 'Conteúdo deve ter pelo menos 10 caracteres')
+    .max(50000, 'Conteúdo deve ter no máximo 50000 caracteres')
+    .trim()
+    .optional(),
+
+  resumo: z
+    .string({
+      invalid_type_error: 'Resumo deve ser um texto',
+    })
+    .min(10, 'Resumo deve ter pelo menos 10 caracteres')
+    .max(500, 'Resumo deve ter no máximo 500 caracteres')
+    .trim()
+    .optional(),
+
+  tipo: z
+    .string({
+      invalid_type_error: 'Tipo deve ser um texto',
+    })
+    .min(3, 'Tipo deve ter pelo menos 3 caracteres')
+    .max(100, 'Tipo deve ter no máximo 100 caracteres')
+    .trim()
+    .optional(),
+
+  imagem_capa: z
+    .string({
+      invalid_type_error: 'Imagem de capa deve ser um texto (URL)',
+    })
+    .optional(),
+});

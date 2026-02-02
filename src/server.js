@@ -1,18 +1,27 @@
 // src/server.js
 import express from 'express';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import uploadRotas from './routes/uploadRotas.js';
 import usuarioRotas from './routes/usuarioRotas.js';
 import loginRotas from './routes/loginRotas.js';
-import editalRotas from './routes/editalRotas.js';
-//import prisma from './config/database.js';
+import postagemRotas from './routes/postagemRotas.js';
+import prisma from './config/database.js';
 import errorHandler from './middlewares/errorHandler.js';
+import { multerErrorHandler } from './middlewares/multerErrorHandler.js';
 import helmetConfig from './config/helmet.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 app.use(helmetConfig);
 // Middleware para parsing JSON
 app.use(express.json());
+
+// Servir arquivos estáticos da pasta uploads
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Rota de health check
 app.get('/health', (req, res) => {
@@ -28,7 +37,10 @@ app.get('/health', (req, res) => {
 
 app.use('/usuarios', usuarioRotas);
 app.use('/login', loginRotas);
-app.use('/editais', editalRotas);
+app.use('/postagens', postagemRotas);
+
+// Rotas de upload (arquivo separadas)
+app.use('/upload', uploadRotas);
 
 // Middleware de tratamento de rotas não encontradas
 app.use((req, res) => {
@@ -42,6 +54,10 @@ app.use((req, res) => {
     path: req.path,
   });
 });
+
+
+// Middleware de tratamento de erros do multer
+app.use(multerErrorHandler);
 
 app.use(errorHandler);
 
