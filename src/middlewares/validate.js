@@ -12,16 +12,11 @@ import { ValidationError } from '../errors/AppError.js';
 const validate = (schema, source = 'body') => {
   return async (req, res, next) => {
     try {
-      // Pega os dados da fonte especificada
       const dataToValidate = req[source];
-      console.log('aaaaaa');
-      console.log(dataToValidate);
-      console.log('aaaaaa');
-      // Valida usando safeParse (não lança exceção)
+
       const result = schema.safeParse(dataToValidate);
 
       if (!result.success) {
-        // Formata erros do Zod
         const details = result.error.issues.map(err => ({
           field: err.path.join('.'),
           message: err.message,
@@ -31,8 +26,6 @@ const validate = (schema, source = 'body') => {
         throw new ValidationError('Dados de entrada inválidos', details);
       }
 
-      // Substitui dados originais pelos validados e transformados
-      // Zod pode ter aplicado transformações (trim, toLowerCase, etc.)
       req[source] = result.data;
 
       next();
