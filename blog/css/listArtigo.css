@@ -1,0 +1,318 @@
+.light{
+    --font-paragrafo: #434a50;
+    --font-resumo: #2e343d;
+}
+
+.dark{
+    --font-paragrafo: #f7f7f7;
+    --font-resumo: #e2e1ebe7;
+}
+
+Main{
+    background-color: var(--color-bg-primary);
+    min-height: 65vh;
+    padding-top: 10vh;
+}
+.inicioBlog{
+    width: 100%;
+    font-family: Roboto;
+    align-items: center;
+    font-size: 1.3em;
+    text-align: center;
+    color: var(--color-font-secondary);
+}
+.textoBlogInicio{
+    width: 90%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    max-width: 900px;
+    font-size: 1em;
+    text-align: justify;
+    margin-left: auto;
+    margin-right: auto;
+}
+.topPesquisa{
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2em;
+    font-family: Roboto;
+    color: var(--color-font-primary);
+    font-size: 1.1em;
+    margin-bottom: 0.1em;
+}
+.pesquisaLista{
+    width: 50%;
+    padding-right: 1.6em;
+    align-items: center;
+}
+.pesquisa{
+    display: flex;
+    background-color: rgba(217.0000022649765, 217.0000022649765, 217.0000022649765, 1);
+    border-radius: 20px;
+    
+    width: 100%;
+    height: 2.2em;
+    padding-right: 15px;
+    padding-left: 15px;
+    align-items: center;
+    justify-content: space-between;
+    vertical-align: middle;
+}
+.entradaPesquisa:focus{
+    box-shadow: 0 0 0 0;
+    outline: 0;
+}
+.entradaPesquisa{
+    background-color: rgba(217.0000022649765, 217.0000022649765, 217.0000022649765, 1);
+    color: var(--color-font-primary);
+    border: none;
+    font-size: 0.9em;
+    width: 90%;
+    background-color: var();
+    height: 1.5em;
+    margin-right: 5px;
+}
+
+.iconPesquisa{
+    color: var(--color-font-secondary);
+    cursor: pointer;
+    font: 1.5em;
+    line-height: 1;
+    border-radius: 100%;
+    width: 1em;
+    height: 1em;
+    background-color: var(--color-bg-primary);
+    padding: 8px;
+}
+
+.resultados{
+    position: absolute;
+    width: 42.5%;
+    height: auto;
+    display: none;
+    max-height: 7em;
+    padding: 5px;
+    padding-top: 0;
+    overflow-y: scroll;
+    background-color: rgba(217.0000022649765, 217.0000022649765, 217.0000022649765, 1);
+    margin-left: 3px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    color: darkslategrey;
+    margin-left: 1em;
+}
+
+.resultados::-webkit-scrollbar {
+    width: 4px;
+}
+  
+.resultados::-webkit-scrollbar-track {
+    opacity: 0.7;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-right: 2px;
+}
+  
+.resultados::-webkit-scrollbar-thumb {
+    background-color: #929292;
+    border-radius: 15px;
+}
+
+.resultados li{
+    margin: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.resultados li:hover{
+    background-color: darkgrey;
+    color: #ebf1f1;
+}
+
+.artigosList{
+    padding-bottom: 5vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(390px, 430px));
+    row-gap: 3em;
+    align-items: center;
+    justify-content: center;
+    place-items: center;
+    font-family: Roboto;
+}
+
+.boxShandow{
+    box-shadow: 0px 10px 6px rgba(0, 0, 0, 0.062);
+	width: 100%;
+    margin-top: 0.2em;
+    height: 1.5em;
+    margin-bottom: 2.1em;
+}
+
+.cardArtigo{
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: none;
+    width: 350px;
+}
+
+.card{ 
+    overflow: hidden;
+	box-shadow:0px 15px 15px rgba(0, 0, 0, 0.267);
+	background-color: var(--color-bg-primary);
+    width: 350px;
+    display: block;
+    color: var(--color-font-secondary);
+	height: 400px;
+    justify-content: end;
+	border-radius:10px;
+}
+
+.imgCard{
+    overflow: hidden;
+    align-items: center;
+    height: 40%;
+}
+
+.imgCard img{
+    min-width: 100%;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    background-color:rgba(217.0000022649765, 217.0000022649765, 217.0000022649765, 1);
+}
+
+.textosCard{
+    background-color: var(--color-bg-primary);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-left: 5%;
+    padding-right: 5%;
+    font-family: Roboto;
+    margin-top: 1px;
+    transition: 0.5s;
+    color: var(--color-font-primary);
+}
+
+.tituloCard{
+    font-weight: 600;
+    color: var(--color-font-secondary);
+    font-size: 1.3em;
+    padding-top: 4%;
+}
+.tituloLinhaCard{
+    color: var(--color-font-primary);
+    background-color:var(--color-font-primary);
+    border-width: 0;
+    width: 75%;
+    margin-top: 0.7em;
+    margin-bottom: 6%;
+    height: 0.15em;
+    
+}
+
+.boxAutorData{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 5%;
+    color: var(--font-paragrafo);
+}
+
+.NomeAutor{
+    font-weight: 500;
+    font-size: 1em;
+    text-align: left;
+}
+
+.dataCard{
+    text-align: right;
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.resumoCard{
+    text-align: justify;
+    opacity: 0.8;
+    color: var(--font-resumo);
+}
+
+.leiaMaisCard{
+    font-weight: 800;
+    margin-top: 0.8em;
+    opacity: 0;
+    transition: 0.7s;
+    color: var(--color-font-primary);
+    justify-content: center;
+    
+    font-size: 1.1em;
+}
+
+.card:hover .textosCard{
+    transform: translateY(-1.5em);
+    border-radius: 10px;
+}
+.card:hover .leiaMaisCard{
+    transition-delay: 0.2s;
+    opacity: 1;
+}
+
+.bi-arrow-right-short{
+    position: absolute;
+    font-size: 1.5em;
+    margin-top: -0.15em;
+    
+}
+
+.card:not(:hover) .leiaMaisCard{
+    opacity: 0;
+}
+
+
+
+@media (max-width: 719px){
+.artigosList{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5vh;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    place-items: center;
+    font-family: Roboto;
+}
+.pesquisaNotFound{
+    min-width: 95%;
+}
+}
+
+@media (min-width: 720px) {
+    .pesquisaNotFound{
+        min-width: 715px;
+    }
+}
+
+.pesquisaNotFound{
+    font-family: Roboto;
+    color: var(--color-font-secondary);    
+    font-size: 1.2em;
+    margin: 5%;
+    line-height: 1.5;
+    align-items: center;
+    justify-content: center;
+}
+.pesquisaNotFound h3{
+    font-size: 1.2em;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+.pesquisaNotFound h3 i{
+    color: #ffc107;
+}
