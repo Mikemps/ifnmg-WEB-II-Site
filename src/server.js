@@ -2,7 +2,8 @@
 import express from 'express';
 import usuarioRotas from './routes/usuarioRotas.js';
 import loginRotas from './routes/loginRotas.js';
-import prisma from './config/database.js';
+import editalRotas from './routes/editalRotas.js';
+//import prisma from './config/database.js';
 import errorHandler from './middlewares/errorHandler.js';
 import helmetConfig from './config/helmet.js';
 
@@ -27,6 +28,7 @@ app.get('/health', (req, res) => {
 
 app.use('/usuarios', usuarioRotas);
 app.use('/login', loginRotas);
+app.use('/editais', editalRotas);
 
 // Middleware de tratamento de rotas não encontradas
 app.use((req, res) => {
