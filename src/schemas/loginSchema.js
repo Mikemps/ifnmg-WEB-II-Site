@@ -1,15 +1,6 @@
 import { z } from 'zod';
 
-export const createUserSchema = z.object({
-  nome: z
-    .string({
-      required_error: 'Nome é obrigatório',
-      invalid_type_error: 'Nome deve ser um texto',
-    })
-    .min(3, 'Nome deve ter pelo menos 3 caracteres')
-    .max(100, 'Nome deve ter no máximo 100 caracteres')
-    .trim(),
-
+export const loginSchema = z.object({
   email: z
     .string({
       required_error: 'Email é obrigatório',
