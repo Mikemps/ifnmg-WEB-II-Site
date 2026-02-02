@@ -8,5 +8,8 @@ import {
 const router = express.Router();
 router.post('/', validate(createUserSchema, 'body'), usuarioController.create);
 router.get('/', usuarioController.getAll);
+router.get('/email/', usuarioController.getByEmail);
+router.put('/email/', usuarioController.updateByEmail);
+router.delete('/email/', usuarioController.deleteByEmail);
 
 export default router;

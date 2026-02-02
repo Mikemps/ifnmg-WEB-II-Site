@@ -59,6 +59,66 @@ export const getAllUsuario = async () =>{
   return usuario;
 };
 
+export const getUsuarioByEmail = async (email) =>{
+  return prisma.usuario.findUnique({
+    where: { email },
+      select: { 
+        idUsuario: true,
+        nome: true,
+        email: true,
+        perfil: {
+          select: {
+            idPerfil: true,
+            nome_perfil: true,
+          },
+        },
+      },
+  });
+};
+
+export const updateUsuarioByEmail = async (email, data) => {
+  const updateData = {};
+
+  if (data.nome) updateData.nome = data.nome;
+  if (data.perfilId) updateData.perfilId = data.perfilId;
+
+  return prisma.usuario.update({
+    where: { email },
+    data: updateData,
+    select: {
+      idUsuario: true,
+      nome: true,
+      email: true,
+      perfil: {
+        select: {
+          idPerfil: true,
+          nome_perfil: true,
+        },
+      },
+    },
+  });
+};
+
+export const deleteUsuarioByEmail = async (email) => {
+  const usuario = await prisma.usuario.findUnique({
+    where: { email },
+  });
+
+  if (!usuario) {
+    return null;
+  }
+
+  return prisma.usuario.delete({
+    where: { email },
+    select: {
+      idUsuario: true,
+      nome: true,
+      email: true,
+    },
+  });
+};
+
+
 export default {
   create,
 };

@@ -25,3 +25,96 @@ export const getAll = async (req, res, next) => {
         next(error);
     }
 }
+
+export const getByEmail = async (req, res, next) =>{
+    try{
+    const { email } = req.body;
+    if (!email) {
+        return res.status(400).json({
+            success: false,
+            message: 'Email é obrigatório'
+        });
+    }
+
+    const usuario = await usuarioService.getUsuarioByEmail(email);
+    if(!usuario){
+        return res.status(404).json({
+            success: false,
+            message: 'Usuário não encontrado'
+        });
+    }
+        
+    res.status(200).json({
+        success: true,
+        data: usuario,
+    });
+}   catch(error) {
+    next(error);
+    }
+};
+
+export const updateByEmail = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email é obrigatório',
+      });
+    }
+
+    const usuario = await usuarioService.updateUsuarioByEmail(
+      email,
+      req.body
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Usuário atualizado com sucesso',
+      data: usuario,
+    });
+  } catch (error) {
+    console.error('ERRO UPDATE USUARIO:', error);
+
+    if (error.code === 'P2025') {
+      return res.status(404).json({
+        success: false,
+        message: 'Usuário não encontrado',
+      });
+    }
+
+    next(error);
+  }
+};
+
+export const deleteByEmail = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email é obrigatório',
+      });
+    }
+
+    const usuario = await usuarioService.deleteUsuarioByEmail(email);
+
+    if (!usuario) {
+      return res.status(404).json({
+        success: false,
+        message: 'Usuário não encontrado',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Usuário excluído com sucesso',
+      data: usuario,
+    });
+  } catch (error) {
+    console.error('ERRO DELETE USUARIO:', error);
+    next(error);
+  }
+};
