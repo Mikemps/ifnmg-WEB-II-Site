@@ -1,8 +1,12 @@
 import * as editalService from '../services/editalService.js';
+import { AppError } from '../errors/AppError.js';
 
 export const criarEdital = async (req, res, next) => {
     try {
-        const edital = await editalService.criarEdital(req.body);
+        const edital = await editalService.criarEdital({
+            ...req.body,
+            autorId: req.user.id,
+        });
         res.status(201).json({
             success: true,
             message: 'Edital criado com sucesso',

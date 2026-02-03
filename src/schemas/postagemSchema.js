@@ -46,18 +46,6 @@ export const postagemCreateSchema = z.object({
       invalid_type_error: 'Imagem de capa deve ser um texto (URL)',
     })
     .optional(),
-  autorId: z
-    .preprocess((val) => {
-      if (typeof val === 'string') {
-        const n = Number(val);
-        return Number.isNaN(n) ? val : n;
-      }
-      return val;
-    },
-    z.number({
-      required_error: 'Autor ID é obrigatório',
-      invalid_type_error: 'Autor ID deve ser um número',
-    }).int('Autor ID deve ser um número inteiro')),
 });
 
 export const postagemUpdateSchema = z.object({
