@@ -25,7 +25,8 @@ if (JWT_SECRET.length < 32) {
  * @param {Object} payload - Dados do usuário para incluir no token
  * @param {number} payload.id - ID do usuário
  * @param {string} payload.email - Email do usuário
- * @param {string} payload.papel - Papel/role do usuário
+ * @param {number} payload.perfilId - ID do perfil do usuário
+ * @param {string} payload.nomePerfil - Nome do perfil do usuário
  * @returns {string} Token JWT assinado
  */
 export function generateToken(payload) {
@@ -33,7 +34,8 @@ export function generateToken(payload) {
     {
       sub: payload.id,
       email: payload.email,
-      role: payload.papel || payload.tipo_usuario,
+      perfilId: payload.perfilId,
+      nomePerfil: payload.nomePerfil,
     },
     JWT_SECRET,
     {

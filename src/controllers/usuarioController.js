@@ -1,4 +1,5 @@
 import * as usuarioService from '../services/usuarioService.js';
+import { AppError } from '../errors/AppError.js';
 
 export const create = async (req, res, next) => {
     try{
@@ -36,6 +37,18 @@ export const getByEmail = async (req, res, next) =>{
         });
     }
 
+    // Verificar se é seu próprio email ou se é admin
+    const isAdmin = req.user.nomePerfil === 'ADMIN';
+    const isOwnEmail = req.user.email === email;
+
+    if (!isOwnEmail && !isAdmin) {
+        throw new AppError(
+            'Você só pode consultar seus próprios dados',
+            403,
+            'INSUFFICIENT_PERMISSIONS'
+        );
+    }
+
     const usuario = await usuarioService.getUsuarioByEmail(email);
     if(!usuario){
         return res.status(404).json({
@@ -55,13 +68,34 @@ export const getByEmail = async (req, res, next) =>{
 
 export const updateByEmail = async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const { email, perfilId } = req.body;
 
     if (!email) {
       return res.status(400).json({
         success: false,
         message: 'Email é obrigatório',
       });
+    }
+
+    // Verificar se é seu próprio email ou se é admin
+    const isAdmin = req.user.nomePerfil === 'ADMIN';
+    const isOwnEmail = req.user.email === email;
+
+    if (!isOwnEmail && !isAdmin) {
+        throw new AppError(
+            'Você só pode atualizar seus próprios dados',
+            403,
+            'INSUFFICIENT_PERMISSIONS'
+        );
+    }
+
+    // Verificar se está tentando alterar o perfil
+    if (perfilId !== undefined && !isAdmin) {
+        throw new AppError(
+            'Apenas admin pode alterar o perfil do usuário',
+            403,
+            'INSUFFICIENT_PERMISSIONS'
+        );
     }
 
     const usuario = await usuarioService.updateUsuarioByEmail(
@@ -97,6 +131,18 @@ export const deleteByEmail = async (req, res, next) => {
         success: false,
         message: 'Email é obrigatório',
       });
+    }
+
+    // Verificar se é seu próprio email ou se é admin
+    const isAdmin = req.user.nomePerfil === 'ADMIN';
+    const isOwnEmail = req.user.email === email;
+
+    if (!isOwnEmail && !isAdmin) {
+        throw new AppError(
+            'Você só pode deletar sua própria conta',
+            403,
+            'INSUFFICIENT_PERMISSIONS'
+        );
     }
 
     const usuario = await usuarioService.deleteUsuarioByEmail(email);

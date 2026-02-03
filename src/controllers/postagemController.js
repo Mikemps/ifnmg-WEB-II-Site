@@ -1,4 +1,5 @@
 import * as postagemService from '../services/postagemService.js';
+import { AppError } from '../errors/AppError.js';
 
 export const listarComentarios = async (req, res, next) => {
   try {
@@ -23,6 +24,7 @@ export const criar = async (req, res, next) => {
     // `validate` middleware already validated and replaced `req.body`
     const dados = {
       ...req.body,
+      autorId: req.user.id,
       ...(req.file && { imagem_capa: `/uploads/${req.file.filename}` }),
     };
 
