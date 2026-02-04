@@ -42,6 +42,11 @@ async function copy() {
     }
 
     // Create a simple index.html that initializes Swagger UI from the static files
+    // Se existir variável de ambiente VERCEL_URL no build, use o YAML em produção
+    const swaggerUrl = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}/api-docs/swagger.yaml`
+      : './swagger.yaml';
+
     const indexHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,6 +54,7 @@ async function copy() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Swagger UI</title>
   <link rel="stylesheet" href="./swagger-ui.css">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; connect-src 'self' ${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'};">
 </head>
 <body>
   <div id="swagger-ui"></div>
@@ -57,7 +63,7 @@ async function copy() {
   <script>
     window.onload = function() {
       const ui = SwaggerUIBundle({
-        url: './swagger.yaml',
+        url: '${swaggerUrl}',
         dom_id: '#swagger-ui',
         presets: [
           SwaggerUIBundle.presets.apis,

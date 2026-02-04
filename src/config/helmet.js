@@ -9,12 +9,19 @@ import helmet from 'helmet';
 const helmetConfig = helmet({
   // Content Security Policy - define fontes confiáveis de conteúdo
   contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"], // Necessário para Swagger UI
-      scriptSrc: ["'self'", "'unsafe-inline'"], // Necessário para Swagger UI
-      imgSrc: ["'self'", "data:", "https:"],
-    },
+    directives: (function () {
+      const connectSrc = ["'self'"];
+      if (process.env.VERCEL_URL) connectSrc.push(`https://${process.env.VERCEL_URL}`);
+      else connectSrc.push('http://localhost:3000');
+
+      return {
+        defaultSrc: ["'self'"],
+        connectSrc,
+        styleSrc: ["'self'", "'unsafe-inline'"], // Necessário para Swagger UI
+        scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'], // permitir CDN
+        imgSrc: ["'self'", "data:", "https:"],
+      };
+    })(),
   },
 
   // Cross-Origin-Embedder-Policy - desabilitado para compatibilidade com Swagger
