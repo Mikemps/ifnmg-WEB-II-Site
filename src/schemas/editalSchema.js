@@ -25,19 +25,11 @@ export const createEditalSchema = z.object({
         .min(1, 'URL do edital deve ter pelo menos 1 caractere')
         .trim(),
 
-    data_publicacao: z.preprocess((val) => typeof val === 'string' ? new Date(val) : val, z.date()).optional(),
     data_validade: z.preprocess((val) => typeof val === 'string' ? new Date(val) : val, z.date()),
-
-    autorId: z
-        .number({
-            required_error: 'ID do autor é obrigatório',
-            invalid_type_error: 'ID do autor deve ser um número',
-        })
-        .int('ID do autor deve ser um número inteiro'),
 }).strict().refine(
-    (data) => !data.data_publicacao || data.data_validade > data.data_publicacao,
+    (data) => data.data_validade > new Date(),
     {
-        message: "data_validade must be greater than data_publicacao",
+        message: "data_validade must be in the future",
         path: ["data_validade"],
     }
 );

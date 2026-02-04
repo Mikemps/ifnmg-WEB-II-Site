@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 
-// 1. MOCKS
+// Mocks para testes de upload
 vi.mock('../src/config/database.js', () => ({
   default: {
     $connect: vi.fn(),
@@ -13,14 +13,12 @@ vi.mock('../src/middlewares/authMiddleware.js', () => ({
   authMiddleware: (req, res, next) => next(),
 }));
 
-// 2. IMPORTS
 import request from 'supertest';
-import app from '../src/app.js';
+import app from '../src/server.js';
 
 describe('Uploads', () => {
   it('POST /upload/content-image - Deve falhar sem arquivo', async () => {
     const response = await request(app).post('/upload/content-image');
-    // Espera erro do cliente (400) ou erro de servidor tratado
     expect(response.status).toBeGreaterThanOrEqual(400);
   });
 });

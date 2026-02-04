@@ -1,6 +1,7 @@
 import * as usuarioService from '../services/usuarioService.js';
 import { AppError } from '../errors/AppError.js';
 
+
 export const create = async (req, res, next) => {
     try{
         const usuario = await usuarioService.create(req.body);
@@ -29,7 +30,7 @@ export const getAll = async (req, res, next) => {
 
 export const getByEmail = async (req, res, next) =>{
     try{
-    const { email } = req.body;
+    const { email } = req.query;
     if (!email) {
         return res.status(400).json({
             success: false,
@@ -68,7 +69,7 @@ export const getByEmail = async (req, res, next) =>{
 
 export const updateByEmail = async (req, res, next) => {
   try {
-    const { email, perfilId } = req.body;
+    const { email } = req.query;
 
     if (!email) {
       return res.status(400).json({
@@ -90,7 +91,7 @@ export const updateByEmail = async (req, res, next) => {
     }
 
     // Verificar se está tentando alterar o perfil
-    if (perfilId !== undefined && !isAdmin) {
+    if (req.body.perfilId !== undefined && !isAdmin) {
         throw new AppError(
             'Apenas admin pode alterar o perfil do usuário',
             403,
@@ -124,7 +125,7 @@ export const updateByEmail = async (req, res, next) => {
 
 export const deleteByEmail = async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const { email } = req.query;
 
     if (!email) {
       return res.status(400).json({

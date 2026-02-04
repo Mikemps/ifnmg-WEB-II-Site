@@ -1,13 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// 1. MOCKS (CRUCIAL: ANTES DOS IMPORTS)
+// Mocks para testes de usuários
 vi.mock('../src/config/database.js', () => ({
   default: {
     usuario: {
       create: vi.fn(),
       findUnique: vi.fn(),
-      findFirst: vi.fn(), // <--- Importante se o controller usar findFirst
+      findFirst: vi.fn(),
       findMany: vi.fn(),
+      update: vi.fn(),
+      delete: vi.fn(),
+      count: vi.fn(),
     },
   },
 }));
@@ -25,13 +28,29 @@ vi.mock('../src/middlewares/authMiddleware.js', () => ({
   }
 }));
 
+vi.mock('../src/middlewares/authMiddleware.js', () => ({
+  default: (req, res, next) => {
+    req.usuarioId = 1;
+    req.user = { id: 1, tipo: 'ADMIN', isAdmin: true, role: 'ADMIN' };
+    next();
+  },
+  authMiddleware: (req, res, next) => {
+    req.usuarioId = 1;
+    req.user = { id: 1, tipo: 'ADMIN', isAdmin: true, role: 'ADMIN' };
+    next();
+  }
+}));
+
 // 2. IMPORTS
 import request from 'supertest';
-import app from '../src/app.js';
+import app from '../src/server.js';
 import prisma from '../src/config/database.js';
 
 describe('Rotas de Usuário', () => {
-  beforeEach(() => { vi.clearAllMocks(); });
+  beforeEach(() => { 
+    vi.clearAllMocks();
+    prisma.usuario.count.mockResolvedValue(0); // Mock para count
+  });
 
   it('POST /usuarios - Deve criar um usuário com sucesso', async () => {
     prisma.usuario.findUnique.mockResolvedValue(null); // Email não existe
@@ -58,11 +77,6 @@ describe('Rotas de Usuário', () => {
     prisma.usuario.findMany.mockResolvedValue([{ id: 1, nome: 'User 1', tipo: 'ADMIN', isAdmin: true, role: 'ADMIN' }]);
 
     const response = await request(app).get('/usuarios');
-    
-    // Se der erro 401 ou 403, imprime para debug
-    if (response.status !== 200) {
-      console.log('ERRO GET USUARIOS:', response.body);
-    }
 
     expect(response.status).toBe(200);
   });
