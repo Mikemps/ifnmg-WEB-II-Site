@@ -33,6 +33,15 @@ const __dirname = dirname(__filename);
 // 5. Middlewares Globais
 app.use(helmetConfig);
 app.use(express.json());
+
+// Servir arquivos estáticos da raiz (CSS, JS, imagens, etc.)
+app.use(express.static(path.join(__dirname, '..')));
+
+// Servir index.html na raiz
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
+
 // CORS: permitir requisições da UI Swagger de qualquer origem (incluindo deployments preview)
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
