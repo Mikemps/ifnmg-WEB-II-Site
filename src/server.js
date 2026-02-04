@@ -89,7 +89,10 @@ export default app;
 
 // 11. Seed de Perfis
 const seedPerfis = async () => {
+  // Apenas executar seed se variável de ambiente ENABLE_SEED estiver definida
+  if (process.env.ENABLE_SEED !== 'true') return;
   if (process.env.NODE_ENV === 'test') return; // Não rodar seed em testes
+  
   try {
     const perfisExistentes = await prisma.perfil.count();
     if (perfisExistentes === 0) {
@@ -99,16 +102,24 @@ const seedPerfis = async () => {
           { idPerfil: 2, nome_perfil: 'ADMIN' },
         ],
       });
-      console.log('Perfis criados: USER (1) e ADMIN (2)');
+      console.log('✅ Perfis criados: USER (1) e ADMIN (2)');
+    } else {
+      console.log('✅ Perfis já existem no banco');
     }
   } catch (error) {
-    console.error('Erro ao criar perfis:', error);
+    console.warn('⚠️ Aviso ao criar perfis (continuando...):', error.message);
   }
 };
 
 // 12. Inicialização do Servidor
 const startServer = async () => {
-  await seedPerfis();
+  try {
+    // Tenta executar seed, mas não bloqueia o servidor se falhar
+    await seedPerfis();
+  } catch (error) {
+    console.warn('⚠️ Seed não executado, servidor continuará rodando');
+  }
+  
   app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando na porta ${PORT}`);
     console.log(`📊 Health: http://localhost:${PORT}/health`);
