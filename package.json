@@ -7,6 +7,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "build": "prisma generate",
+    "postbuild": "prisma db push",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -27,6 +29,7 @@
   "dependencies": {
     "@prisma/client": "^7.3.0",
     "@prisma/extension-accelerate": "^3.0.1",
+    "@vercel/blob": "^0.23.4",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
