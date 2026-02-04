@@ -65,7 +65,17 @@ try {
     ];
   }
 
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentInit));
+  // Forçar uso de assets no CDN (evita buscar arquivos em node_modules/public no Vercel)
+  const swaggerUiOptions = {
+    customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
+    customJs: [
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.js'
+    ],
+    customCss: '.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }'
+  };
+
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentInit, swaggerUiOptions));
 } catch (e) {
   console.warn('Não foi possível carregar swagger.yaml na inicialização:', e.message);
 }
