@@ -42,10 +42,8 @@ async function copy() {
     }
 
     // Create a simple index.html that initializes Swagger UI from the static files
-    // Se existir variável de ambiente VERCEL_URL no build, use o YAML em produção
-    const swaggerUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}/api-docs/swagger.yaml`
-      : './swagger.yaml';
+    // Use caminho relativo absoluto para sempre buscar o YAML do mesmo domínio
+    const swaggerUrl = '/api-docs/swagger.yaml';
 
     const indexHtml = `<!DOCTYPE html>
 <html lang="en">

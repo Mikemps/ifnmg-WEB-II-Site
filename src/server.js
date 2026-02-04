@@ -89,6 +89,17 @@ try {
   console.warn('Não foi possível carregar swagger.yaml na inicialização:', e.message);
 }
 
+// Servir o arquivo swagger.yaml via endpoint para garantir mesmo-origin e MIME correto
+app.get('/api-docs/swagger.yaml', (req, res) => {
+  try {
+    const filePath = path.join(__dirname, '..', 'docs', 'swagger.yaml');
+    res.type('application/x-yaml');
+    res.sendFile(filePath);
+  } catch (err) {
+    res.status(500).send('Erro ao servir swagger.yaml');
+  }
+});
+
 // 7. Rota de Health Check
 app.get('/health', (req, res) => {
   res.status(200).json({
