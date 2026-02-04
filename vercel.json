@@ -2,14 +2,7 @@
   "version": 2,
   "routes": [
     {
-      "src": "/api-docs/.*\\.(?:js|css|png|svg|gif|jpg|jpeg|ico)$",
-      "dest": "/api-docs/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    },
-    {
-      "src": "/(.*)",
+      "src": "\\/(.*)",
       "dest": "src/server.js"
     }
   ],
