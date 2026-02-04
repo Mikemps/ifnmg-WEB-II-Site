@@ -6,9 +6,43 @@ info:
 
 servers:
   - url: http://localhost:3000
-    description: Servidor Local
+    description: API SIFSoft
 
 paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Health check da API
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Realizar login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginSchema'
+      responses:
+        '200':
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Credenciais inválidas
+
   /usuarios:
     post:
       tags:
@@ -22,20 +56,38 @@ paths:
               $ref: '#/components/schemas/CreateUserSchema'
       responses:
         '201':
-          description: Criado
+          description: Usuário criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Dados inválidos
     get:
       tags:
         - Usuários
-      summary: Lista usuários
+      summary: Lista todos os usuários (admin only)
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: OK
+          description: Lista de usuários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '403':
+          description: Acesso negado
 
   /usuarios/email:
     get:
       tags:
         - Usuários
-      summary: Busca por email
+      summary: Busca usuário por email (autenticado)
+      security:
+        - bearerAuth: []
       parameters:
         - name: email
           in: query
@@ -44,7 +96,417 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Usuário encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Usuário não encontrado
+    put:
+      tags:
+        - Usuários
+      summary: Atualiza usuário por email (autenticado)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserSchema'
+      responses:
+        '200':
+          description: Usuário atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Acesso negado
+    delete:
+      tags:
+        - Usuários
+      summary: Deleta usuário por email (autenticado)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Usuário deletado
+        '403':
+          description: Acesso negado
+
+  /postagens:
+    post:
+      tags:
+        - Postagens
+      summary: Cria uma nova postagem (admin only)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PostagemCreateSchema'
+      responses:
+        '201':
+          description: Postagem criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Postagem'
+        '403':
+          description: Acesso negado
+    get:
+      tags:
+        - Postagens
+      summary: Lista postagens com paginação
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Lista de postagens
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  postagens:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Postagem'
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+
+  /postagens/buscar/{titulo}:
+    get:
+      tags:
+        - Postagens
+      summary: Busca postagens por título
+      parameters:
+        - name: titulo
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Postagens encontradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Postagem'
+
+  /postagens/tipo/{tipo}:
+    get:
+      tags:
+        - Postagens
+      summary: Busca postagens por tipo
+      parameters:
+        - name: tipo
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [post, servico]
+      responses:
+        '200':
+          description: Postagens encontradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Postagem'
+
+  /postagens/{id}/comentarios:
+    get:
+      tags:
+        - Postagens
+      summary: Lista comentários da postagem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Comentários da postagem
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comentario'
+
+  /postagens/{id}:
+    delete:
+      tags:
+        - Postagens
+      summary: Deleta postagem (admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Postagem deletada
+        '403':
+          description: Acesso negado
+
+  /comentarios:
+    post:
+      tags:
+        - Comentários
+      summary: Cria um novo comentário (autenticado)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComentarioCreateSchema'
+      responses:
+        '201':
+          description: Comentário criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comentario'
+        '401':
+          description: Não autenticado
+
+  /comentarios/{id}:
+    patch:
+      tags:
+        - Comentários
+      summary: Atualiza comentário (owner ou admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComentarioUpdateSchema'
+      responses:
+        '200':
+          description: Comentário atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comentario'
+        '403':
+          description: Acesso negado
+    delete:
+      tags:
+        - Comentários
+      summary: Deleta comentário (owner ou admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Comentário deletado
+        '403':
+          description: Acesso negado
+
+  /editais:
+    get:
+      tags:
+        - Editais
+      summary: Lista todos os editais
+      responses:
+        '200':
+          description: Lista de editais
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Edital'
+    post:
+      tags:
+        - Editais
+      summary: Cria um novo edital (admin only)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEditalSchema'
+      responses:
+        '201':
+          description: Edital criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edital'
+        '403':
+          description: Acesso negado
+
+  /editais/{id}:
+    get:
+      tags:
+        - Editais
+      summary: Obtém edital por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Edital encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edital'
+        '404':
+          description: Edital não encontrado
+    put:
+      tags:
+        - Editais
+      summary: Atualiza edital (admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEditalSchema'
+      responses:
+        '200':
+          description: Edital atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edital'
+        '403':
+          description: Acesso negado
+    delete:
+      tags:
+        - Editais
+      summary: Deleta edital (admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Edital deletado
+        '403':
+          description: Acesso negado
+
+  /editais/titulo/{titulo}:
+    get:
+      tags:
+        - Editais
+      summary: Busca edital por título
+      parameters:
+        - name: titulo
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Edital encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edital'
+
+  /upload/content-image:
+    post:
+      tags:
+        - Upload
+      summary: Faz upload de imagem de conteúdo (admin only)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Upload realizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+        '400':
+          description: Arquivo inválido
+        '403':
+          description: Acesso negado
 
 components:
   securitySchemes:
@@ -53,6 +515,19 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        version:
+          type: string
+
     CreateUserSchema:
       type: object
       required:
@@ -62,7 +537,243 @@ components:
       properties:
         nome:
           type: string
+          minLength: 3
+          maxLength: 100
         email:
           type: string
+          format: email
         senha:
           type: string
+          minLength: 6
+          maxLength: 100
+
+    UpdateUserSchema:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 3
+          maxLength: 100
+        email:
+          type: string
+          format: email
+        senha:
+          type: string
+          minLength: 6
+          maxLength: 100
+
+    User:
+      type: object
+      properties:
+        idUsuario:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        perfilId:
+          type: integer
+        perfil:
+          $ref: '#/components/schemas/Perfil'
+
+    Perfil:
+      type: object
+      properties:
+        idPerfil:
+          type: integer
+        nome_perfil:
+          type: string
+
+    LoginSchema:
+      type: object
+      required:
+        - email
+        - senha
+      properties:
+        email:
+          type: string
+          format: email
+        senha:
+          type: string
+          minLength: 6
+          maxLength: 100
+
+    LoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            usuario:
+              $ref: '#/components/schemas/User'
+            token:
+              type: string
+
+    PostagemCreateSchema:
+      type: object
+      required:
+        - titulo
+        - conteudo
+        - resumo
+        - tipo
+      properties:
+        titulo:
+          type: string
+          minLength: 3
+          maxLength: 255
+        conteudo:
+          type: string
+          minLength: 10
+          maxLength: 50000
+        resumo:
+          type: string
+          minLength: 10
+          maxLength: 500
+        tipo:
+          type: string
+          enum: [post, servico]
+        imagem_capa:
+          type: string
+          format: binary
+
+    Postagem:
+      type: object
+      properties:
+        idPostagem:
+          type: integer
+        titulo:
+          type: string
+        conteudo:
+          type: string
+        resumo:
+          type: string
+        imagem_capa:
+          type: string
+        tipo:
+          type: string
+        data:
+          type: string
+          format: date-time
+        autorId:
+          type: integer
+        autor:
+          $ref: '#/components/schemas/User'
+
+    ComentarioCreateSchema:
+      type: object
+      required:
+        - texto
+        - usuarioId
+        - postagemId
+      properties:
+        texto:
+          type: string
+          minLength: 1
+          maxLength: 2000
+        usuarioId:
+          type: integer
+        postagemId:
+          type: integer
+
+    ComentarioUpdateSchema:
+      type: object
+      required:
+        - texto
+      properties:
+        texto:
+          type: string
+          minLength: 1
+          maxLength: 2000
+
+    Comentario:
+      type: object
+      properties:
+        idComentario:
+          type: integer
+        texto:
+          type: string
+        data:
+          type: string
+          format: date-time
+        usuarioId:
+          type: integer
+        usuario:
+          $ref: '#/components/schemas/User'
+        postagemId:
+          type: integer
+        postagem:
+          $ref: '#/components/schemas/Postagem'
+
+    CreateEditalSchema:
+      type: object
+      required:
+        - titulo
+        - tipo
+        - editalurl
+        - data_validade
+        - autorId
+      properties:
+        titulo:
+          type: string
+          minLength: 1
+        tipo:
+          type: string
+          minLength: 1
+        editalurl:
+          type: string
+          minLength: 1
+        data_publicacao:
+          type: string
+          format: date-time
+        data_validade:
+          type: string
+          format: date-time
+        autorId:
+          type: integer
+
+    UpdateEditalSchema:
+      type: object
+      properties:
+        titulo:
+          type: string
+          minLength: 1
+        tipo:
+          type: string
+          minLength: 1
+        editalurl:
+          type: string
+          minLength: 1
+        data_publicacao:
+          type: string
+          format: date-time
+        data_validade:
+          type: string
+          format: date-time
+        autorId:
+          type: integer
+
+    Edital:
+      type: object
+      properties:
+        idEdital:
+          type: integer
+        titulo:
+          type: string
+        tipo:
+          type: string
+        editalurl:
+          type: string
+        data_publicacao:
+          type: string
+          format: date-time
+        data_validade:
+          type: string
+          format: date-time
+        autorId:
+          type: integer
+        autor:
+          $ref: '#/components/schemas/User'

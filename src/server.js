@@ -126,7 +126,7 @@ app.use('/api-docs', swaggerUi.serve, (req, res) => {
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
-    message: 'API do Gerador de Provas funcionando!',
+    message: 'API do Site SIFSoft Funcionando!',
     timestamp: new Date().toISOString(),
     version: '1.0.0',
   });

@@ -6,6 +6,6 @@ import {
 } from '../schemas/loginSchema.js';
 
 const router = express.Router();
-router.get('/', validate(loginSchema, 'body'), loginController.login);
+router.post('/', validate(loginSchema, 'body'), loginController.login);
 
 export default router;
