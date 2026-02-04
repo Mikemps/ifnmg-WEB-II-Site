@@ -38,6 +38,21 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // --- 6. CONFIGURAÇÃO DO SWAGGER ---
+// Serve estático de `public/api-docs` (gerado em build) e fallback para
+// `node_modules/swagger-ui-dist` para garantir que os assets existam em runtime.
+const publicSwaggerPath = path.join(__dirname, '..', 'public', 'api-docs');
+const distSwaggerPath = path.join(__dirname, '..', 'node_modules', 'swagger-ui-dist');
+
+// Primeiro tenta servir arquivos estáticos gerados em `public/api-docs`
+if (fs.existsSync(publicSwaggerPath)) {
+  app.use('/api-docs', express.static(publicSwaggerPath));
+}
+
+// Fallback para os arquivos do pacote `swagger-ui-dist`
+if (fs.existsSync(distSwaggerPath)) {
+  app.use('/api-docs', express.static(distSwaggerPath));
+}
+
 // Carrega o swagger.yaml na inicialização e monta o middleware padrão
 try {
   const swaggerPathInit = path.join(__dirname, '..', 'docs', 'swagger.yaml');
