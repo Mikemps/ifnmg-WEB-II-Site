@@ -34,6 +34,11 @@ const __dirname = dirname(__filename);
 app.use(helmetConfig);
 app.use(express.json());
 
+// Servir arquivos estáticos específicos dos diretórios (CSS, JS, imagens)
+app.use('/css2', express.static(path.join(__dirname, '..', 'css2')));
+app.use('/js2', express.static(path.join(__dirname, '..', 'js2')));
+app.use('/images2', express.static(path.join(__dirname, '..', 'images2')));
+
 // Servir arquivos estáticos da raiz (CSS, JS, imagens, etc.)
 app.use(express.static(path.join(__dirname, '..')));
 

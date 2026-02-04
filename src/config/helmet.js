@@ -17,7 +17,8 @@ const helmetConfig = helmet({
       return {
         defaultSrc: ["'self'"],
         connectSrc,
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com'],
         scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'],
         imgSrc: ["'self'", "data:", "https://validator.swagger.io", "https:"],
       };
