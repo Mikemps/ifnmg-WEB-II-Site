@@ -8,28 +8,16 @@
 - [Vinícius Amaral Costa](https://github.com/Vinicius-amaral11)
 ---
 ### Trabalho Proposto:
-1. O objetivo do trabalho final é o desenvolvimento do Back-End de um Sistema WEB. Os exemplos de temas trabalho podem ser diversos: sites para empresas; projetos de ensino/pesquisa/extensão; sistemas diversos; jogos; etc… 
-2. Segue a lista de alguns requisitos do trabalho final:
-    - Colaboração entre os integrantes da equipe utilizando o GitHub através de *Pull Requests*
-    - Banco de Dados
-        - No mínimo três entidades
-        - No mínimo um relacionamento de cardinalidade (1:N)
-    - Arquitetura em camadas
-    - Testes automatizados
-    - Validação e Tratamento de Erros
-    - Upload de arquivos
-    - Documentação
-    - Autenticação
-    - Deploy público
-3. Um único membro de cada equipe **(serão apenas 3 equipes)** deverá responder ao formulário disponível no Classroom, com as seguintes informações: 
-    - Motivação/Relevância (Por quê? Qual o problema a ser resolvido? … etc)
-    - Contexto (Onde? Pra quem? … etc)
-    - Solução (Como? Qual a proposta de solução? Quais as funcionalidades? … etc)
+Para atender à Proposta do Trabalho Final (@#07), foi desenvolvido o back-end do Site 2.0 da SIFSoft Júnior, empresa júnior vinculada ao curso de Bacharelado em Sistemas de Informação. O sistema foi concebido com o propósito de centralizar e gerenciar informações institucionais, contribuindo para uma comunicação mais eficiente, organizada e acessível ao público interno e externo.
+
+A aplicação permite a divulgação de informações sobre a empresa júnior, seus projetos, produtos e formas de contato, bem como conteúdos relacionados ao Movimento Empresa Júnior (MEJ). Além disso, possibilita a publicação de documentação referente a editais de processos seletivos e vagas de estágio. Como parte da solução, foi integrado um blog ao sistema, destinado à publicação de eventos, conquistas e atividades da empresa, promovendo a construção de um histórico institucional coeso e contínuo.
+
+O back-end foi desenvolvido de forma estruturada e colaborativa, visando garantir organização, segurança e confiabilidade no gerenciamento dos dados, além de oferecer uma base sólida para futuras manutenções, evoluções e integração com o front-end do site.
 ---
 ---
 # Sistemas WEB: Site 2.0 da SIFSoft Júnior
 ### Objetivo:
-Para cumprir a proposta de tranalho final escolhemos recriar o back-end do site da empresa júnior do cursos de BSI que terá como objeitvo quando finalizado, informar a respeito de projetos da empresa, contato com o MEJ, produtos, além de ser um meio de contatos com a EJ e fazer publicações de documentação a respeito de editais de processo seletivo e vagas de estagio, juntamente temos o blog que deverá ser conectado ao site a fim de ser atualizado a cada evento ou conquista da empresa júnior, criando um histórico de legado coeso e realista.
+O objetivo do projeto é criar o back-end do site da empresa júnior do curso de BSI, fornecendo uma infraestrutura capaz de suportar a divulgação de projetos, produtos e informações institucionais, bem como servir como canal de contato com a Empresa Júnior e o MEJ. O sistema também tem como finalidade viabilizar a publicação de documentos relacionados a processos seletivos e oportunidades de estágio, além de manter um blog integrado ao site para registrar eventos e conquistas, fortalecendo o legado e a identidade da SIFSoft Júnior ao longo do tempo.
 ### Orientações:
 - Instale as dependências:
 ---    
