@@ -17,8 +17,8 @@ import helmetConfig from './config/helmet.js';
 import fs from 'fs';
 import yaml from 'js-yaml';
 import swaggerUi from 'swagger-ui-express';
+import app from './app.js';
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const swaggerDocument = yaml.load(fs.readFileSync(swaggerPath, 'utf8'));
@@ -69,6 +69,7 @@ app.use(multerErrorHandler);
 app.use(errorHandler);
 
 // Inicializar servidor
+
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/health`);
