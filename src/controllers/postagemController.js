@@ -1,5 +1,5 @@
 import * as postagemService from '../services/postagemService.js';
-import { AppError } from '../errors/AppError.js';
+import { AppError } from '../errors/appError.js';
 
 export const listarComentarios = async (req, res, next) => {
   try {

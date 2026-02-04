@@ -1,5 +1,5 @@
 import prisma from '../config/database.js';
-import { NotFoundError } from '../errors/AppError.js';
+import { NotFoundError } from '../errors/appError.js';
 
 export const criarComentario = async (data) => {
   const [usuario, postagem] = await Promise.all([

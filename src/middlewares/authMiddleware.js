@@ -1,5 +1,5 @@
 import { verifyToken } from '../config/jwt.js';
-import { AppError } from '../errors/AppError.js';
+import { AppError } from '../errors/appError.js';
 
 /**
  * Middleware para autenticar requisições usando JWT

@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from '../config/jwt.js';
 import {
   AppError,
-} from '../errors/AppError.js';
+} from '../errors/appError.js';
 
 export const login = async({email, senha}) => {
     const usuario = await prisma.usuario.findUnique({

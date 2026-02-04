@@ -1,7 +1,7 @@
 import prisma from '../config/database.js';
 import {
   AppError,
-} from '../errors/AppError.js';
+} from '../errors/appError.js';
 
 export const criarPostagem = async (data) => {
   const postagem = await prisma.postagem.create({

@@ -14,7 +14,7 @@ import helmetConfig from './config/helmet.js';
 import errorHandler from './middlewares/errorHandler.js';
 import { multerErrorHandler } from './middlewares/multerErrorHandler.js';
 // Import dummy para garantir inclusão no bundle do Vercel
-import { AppError } from './errors/AppError.js';
+import { AppError } from './errors/appError.js';
 
 // 3. Imports de Rotas
 import uploadRotas from './routes/uploadRotas.js';

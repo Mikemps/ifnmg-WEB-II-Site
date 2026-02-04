@@ -1,5 +1,5 @@
 // src/middlewares/errorHandler.js
-import { AppError } from '../errors/AppError.js';
+import { AppError } from '../errors/appError.js';
 
 /**
  * Middleware centralizado de tratamento de erros

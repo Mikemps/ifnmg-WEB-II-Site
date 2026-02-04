@@ -1,5 +1,5 @@
 import * as usuarioService from '../services/usuarioService.js';
-import { AppError } from '../errors/AppError.js';
+import { AppError } from '../errors/appError.js';
 
 
 export const create = async (req, res, next) => {

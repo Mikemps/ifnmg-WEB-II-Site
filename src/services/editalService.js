@@ -1,7 +1,7 @@
 import prisma from '../config/database.js';
 import {
   AppError,
-} from '../errors/AppError.js';
+} from '../errors/appError.js';
 
 export const criarEdital = async (dados) => {
     // Verificar se já existe um edital com a mesma URL ou título

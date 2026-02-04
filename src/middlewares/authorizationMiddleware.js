@@ -1,4 +1,4 @@
-import { AppError } from '../errors/AppError.js';
+import { AppError } from '../errors/appError.js';
 
 /**
  * Middleware para verificar se o usuário é admin

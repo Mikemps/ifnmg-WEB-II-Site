@@ -1,5 +1,5 @@
 import * as comentarioService from '../services/comentarioService.js';
-import { AppError } from '../errors/AppError.js';
+import { AppError } from '../errors/appError.js';
 import prisma from '../config/database.js';
 
 export const criar = async (req, res, next) => {

@@ -2,7 +2,7 @@ import prisma from '../config/database.js';
 import bcrypt from "bcryptjs";
 import {
   ConflictError,
-} from '../errors/AppError.js';
+} from '../errors/appError.js';
 
 const emailExists = async email => {
   const usuario = await prisma.usuario.findUnique({
