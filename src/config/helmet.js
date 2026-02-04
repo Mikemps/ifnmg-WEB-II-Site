@@ -17,9 +17,9 @@ const helmetConfig = helmet({
       return {
         defaultSrc: ["'self'"],
         connectSrc,
-        styleSrc: ["'self'", "'unsafe-inline'"], // Necessário para Swagger UI
-        scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'], // permitir CDN
-        imgSrc: ["'self'", "data:", "https:"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'],
+        imgSrc: ["'self'", "data:", "https://validator.swagger.io", "https:"],
       };
     })(),
   },

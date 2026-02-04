@@ -5,8 +5,10 @@ info:
   version: 1.0.0
 
 servers:
+  - url: https://ifnmg-web-ii-site.vercel.app
+    description: API SIFSoft (Produção Vercel)
   - url: http://localhost:3000
-    description: API SIFSoft
+    description: API SIFSoft (Local)
 
 paths:
   /health:

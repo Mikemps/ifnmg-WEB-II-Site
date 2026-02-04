@@ -33,10 +33,9 @@ const __dirname = dirname(__filename);
 // 5. Middlewares Globais
 app.use(helmetConfig);
 app.use(express.json());
-// CORS: permitir que a UI hospedada no Vercel acesse a API
+// CORS: permitir requisições da UI Swagger de qualquer origem (incluindo deployments preview)
 app.use((req, res, next) => {
-  const origin = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : req.headers.origin || '*';
-  res.header('Access-Control-Allow-Origin', origin);
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
   if (req.method === 'OPTIONS') return res.sendStatus(204);
