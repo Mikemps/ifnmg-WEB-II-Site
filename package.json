@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "build": "prisma generate",
+    "build": "node scripts/copy-swagger.js && prisma generate",
     "postbuild": "prisma db push",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
