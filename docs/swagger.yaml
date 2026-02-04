@@ -1,0 +1,68 @@
+openapi: 3.0.0
+info:
+  title: Site da SIFSoft jr 2.0
+  description: Documentação do sistema de gerenciamento.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor Local
+
+paths:
+  /usuarios:
+    post:
+      tags:
+        - Usuários
+      summary: Cria um novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserSchema'
+      responses:
+        '201':
+          description: Criado
+    get:
+      tags:
+        - Usuários
+      summary: Lista usuários
+      responses:
+        '200':
+          description: OK
+
+  /usuarios/email:
+    get:
+      tags:
+        - Usuários
+      summary: Busca por email
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    CreateUserSchema:
+      type: object
+      required:
+        - nome
+        - email
+        - senha
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
