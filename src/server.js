@@ -37,17 +37,38 @@ app.use(express.json());
 // Servir arquivos estáticos (uploads)
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
-// --- 6. CONFIGURAÇÃO DINÂMICA DO SWAGGER ---
-// Isso garante que qualquer mudança no swagger.yaml apareça ao dar F5
-app.use('/api-docs', swaggerUi.serve, (req, res) => {
+// --- 6. CONFIGURAÇÃO DO SWAGGER ---
+// Servir arquivos estáticos do swagger-ui
+app.use('/api-docs', swaggerUi.serveFiles);
+
+// Endpoint principal do Swagger
+app.get('/api-docs', (req, res) => {
   try {
     const swaggerPath = path.join(__dirname, '..', 'docs', 'swagger.yaml');
     const swaggerDocument = yaml.load(fs.readFileSync(swaggerPath, 'utf8'));
+    
+    // Ajustar URL do servidor baseado no ambiente
+    if (process.env.VERCEL_URL) {
+      swaggerDocument.servers = [
+        {
+          url: `https://${process.env.VERCEL_URL}`,
+          description: 'API em Produção (Vercel)',
+        },
+        {
+          url: 'http://localhost:3000',
+          description: 'API Local',
+        },
+      ];
+    }
+    
     swaggerUi.setup(swaggerDocument)(req, res);
   } catch (e) {
     res.status(500).send("Erro ao carregar a documentação: " + e.message);
   }
 });
+
+// Servir página inicial do Swagger em /api-docs/
+app.use('/api-docs/', swaggerUi.serve);
 
 // 7. Rota de Health Check
 app.get('/health', (req, res) => {
