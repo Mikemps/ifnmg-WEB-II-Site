@@ -13,7 +13,7 @@ Para atender à Proposta do Trabalho Final (@#07), foi desenvolvido o back-end d
 A aplicação permite a divulgação de informações sobre a empresa júnior, seus projetos, produtos e formas de contato, bem como conteúdos relacionados ao Movimento Empresa Júnior (MEJ). Além disso, possibilita a publicação de documentação referente a editais de processos seletivos e vagas de estágio. Como parte da solução, foi integrado um blog ao sistema, destinado à publicação de eventos, conquistas e atividades da empresa, promovendo a construção de um histórico institucional coeso e contínuo.
 
 O back-end foi desenvolvido de forma estruturada e colaborativa, visando garantir organização, segurança e confiabilidade no gerenciamento dos dados, além de oferecer uma base sólida para futuras manutenções, evoluções e integração com o front-end do site.
----
+
 ---
 # Sistemas WEB: Site 2.0 da SIFSoft Júnior
 ### Objetivo:
