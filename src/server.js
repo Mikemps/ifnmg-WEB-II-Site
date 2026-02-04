@@ -38,27 +38,22 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // --- 6. CONFIGURAÇÃO DO SWAGGER ---
-// Servir arquivos estáticos do swagger-ui (CSS/JS/etc.)
-app.use('/api-docs', swaggerUi.serve);
+// Carrega o swagger.yaml na inicialização e monta o middleware padrão
+try {
+  const swaggerPathInit = path.join(__dirname, '..', 'docs', 'swagger.yaml');
+  const swaggerDocumentInit = yaml.load(fs.readFileSync(swaggerPathInit, 'utf8'));
 
-// Rota que devolve a página principal do Swagger (index)
-app.get('/api-docs', (req, res) => {
-  try {
-    const swaggerPath = path.join(__dirname, '..', 'docs', 'swagger.yaml');
-    const swaggerDocument = yaml.load(fs.readFileSync(swaggerPath, 'utf8'));
-
-    if (process.env.VERCEL_URL) {
-      swaggerDocument.servers = [
-        { url: `https://${process.env.VERCEL_URL}`, description: 'API em Produção (Vercel)' },
-        { url: 'http://localhost:3000', description: 'API Local' },
-      ];
-    }
-
-    swaggerUi.setup(swaggerDocument)(req, res);
-  } catch (e) {
-    res.status(500).send('Erro ao carregar a documentação: ' + e.message);
+  if (process.env.VERCEL_URL) {
+    swaggerDocumentInit.servers = [
+      { url: `https://${process.env.VERCEL_URL}`, description: 'API em Produção (Vercel)' },
+      { url: 'http://localhost:3000', description: 'API Local' },
+    ];
   }
-});
+
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentInit));
+} catch (e) {
+  console.warn('Não foi possível carregar swagger.yaml na inicialização:', e.message);
+}
 
 // 7. Rota de Health Check
 app.get('/health', (req, res) => {
