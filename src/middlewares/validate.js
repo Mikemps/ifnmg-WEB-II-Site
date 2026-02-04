@@ -1,4 +1,3 @@
-// src/middlewares/validate.js
 import { ValidationError } from '../errors/AppError.js';
 
 /**

@@ -3,7 +3,6 @@ import * as postagemController from '../controllers/postagemController.js';
 import upload from '../config/multer.js';
 import validate from '../middlewares/validate.js';
 import { postagemCreateSchema } from '../schemas/postagemSchema.js';
-import * as comentarioController from '../controllers/comentarioController.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { requireAdmin } from '../middlewares/authorizationMiddleware.js';
 

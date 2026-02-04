@@ -27,3 +27,29 @@ export const createUserSchema = z.object({
     .min(6, 'Senha deve ter pelo menos 6 caracteres')
     .max(100, 'Senha deve ter no máximo 100 caracteres'),
 });
+
+export const updateUserSchema = z.object({
+  nome: z
+    .string({
+      invalid_type_error: 'Nome deve ser um texto',
+    })
+    .min(3, 'Nome deve ter pelo menos 3 caracteres')
+    .max(100, 'Nome deve ter no máximo 100 caracteres')
+    .trim()
+    .optional(),
+
+  senha: z
+    .string({
+      invalid_type_error: 'Senha deve ser um texto',
+    })
+    .min(6, 'Senha deve ter pelo menos 6 caracteres')
+    .max(100, 'Senha deve ter no máximo 100 caracteres')
+    .optional(),
+
+  perfilId: z
+    .number({
+      invalid_type_error: 'Perfil ID deve ser um número',
+    })
+    .int('Perfil ID deve ser um número inteiro')
+    .optional(),
+}).strict();

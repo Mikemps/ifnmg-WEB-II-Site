@@ -1,8 +1,6 @@
 import prisma from '../config/database.js';
 import bcrypt from "bcryptjs";
 import {
-  ValidationError,
-  NotFoundError,
   ConflictError,
 } from '../errors/AppError.js';
 
@@ -20,13 +18,17 @@ export const create = async({nome, email, senha}) => {
     throw new ConflictError('Email já cadastrado no sistema', 'email');
   }
 
+  // Verifica se é o primeiro usuário
+  const usuariosCount = await prisma.usuario.count();
+  const perfilId = usuariosCount === 0 ? 2 : 1; // 2 para ADMIN, 1 para padrão
+
   const senhaHash = await bcrypt.hash(senha, 10);
   
   const dadosUsuario = {
     nome,
     email,
     senha: senhaHash,
-    perfilId: 1,
+    perfilId,
   };
 
   const novoUsuario = await prisma.usuario.create({
@@ -81,6 +83,7 @@ export const updateUsuarioByEmail = async (email, data) => {
 
   if (data.nome) updateData.nome = data.nome;
   if (data.perfilId) updateData.perfilId = data.perfilId;
+  if (data.senha) updateData.senha = await bcrypt.hash(data.senha, 10);
 
   return prisma.usuario.update({
     where: { email },

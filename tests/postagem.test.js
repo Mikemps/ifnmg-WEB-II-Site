@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// 1. MOCKS
+// Mocks para isolar testes de postagens
 vi.mock('../src/config/database.js', () => ({
   default: {
     postagem: { create: vi.fn(), findMany: vi.fn(), count: vi.fn() },
@@ -27,9 +27,8 @@ vi.mock('../src/services/postagemService.js', () => ({
   listarPostagens: vi.fn(),
 }));
 
-// 2. IMPORTS
 import request from 'supertest';
-import app from '../src/app.js';
+import app from '../src/server.js';
 import * as postagemService from '../src/services/postagemService.js';
 
 describe('Rotas de Postagem', () => {

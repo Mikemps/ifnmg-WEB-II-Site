@@ -85,7 +85,7 @@ paths:
     get:
       tags:
         - Usuários
-      summary: Busca usuário por email (autenticado)
+      summary: Busca usuário por email (owner ou admin)
       security:
         - bearerAuth: []
       parameters:
@@ -106,7 +106,7 @@ paths:
     put:
       tags:
         - Usuários
-      summary: Atualiza usuário por email (autenticado)
+      summary: Atualiza usuário por email (owner ou admin)
       security:
         - bearerAuth: []
       parameters:
@@ -133,7 +133,7 @@ paths:
     delete:
       tags:
         - Usuários
-      summary: Deleta usuário por email (autenticado)
+      summary: Deleta usuário por email (owner ou admin)
       security:
         - bearerAuth: []
       parameters:
@@ -554,13 +554,12 @@ components:
           type: string
           minLength: 3
           maxLength: 100
-        email:
-          type: string
-          format: email
         senha:
           type: string
           minLength: 6
           maxLength: 100
+        perfilId:
+          type: integer
 
     User:
       type: object
@@ -715,7 +714,6 @@ components:
         - tipo
         - editalurl
         - data_validade
-        - autorId
       properties:
         titulo:
           type: string
@@ -726,14 +724,9 @@ components:
         editalurl:
           type: string
           minLength: 1
-        data_publicacao:
-          type: string
-          format: date-time
         data_validade:
           type: string
           format: date-time
-        autorId:
-          type: integer
 
     UpdateEditalSchema:
       type: object
